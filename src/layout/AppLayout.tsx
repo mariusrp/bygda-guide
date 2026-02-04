@@ -20,7 +20,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 
 const navItems = [
-  { label: "Utforsk", to: "/utforsk" },
   { label: "Arrangement", to: "/kategori/arrangement" },
   { label: "Overnatting", to: "/kategori/overnatting" },
   { label: "Spisestader", to: "/kategori/spisestader" },
@@ -31,7 +30,7 @@ const navItems = [
 
 export default function AppLayout() {
   const theme = useTheme();
-  const isSm = useMediaQuery(theme.breakpoints.down("md"));
+  const isSm = useMediaQuery(theme.breakpoints.down("lg")); // Changed to lg
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -47,21 +46,38 @@ export default function AppLayout() {
         position="sticky"
         sx={{
           backdropFilter: "blur(10px)",
-          background: "rgba(250,250,247,0.75)",
+          background: "rgba(255,255,255,0.95)",
           borderBottom: "1px solid rgba(15,23,42,0.08)",
           color: "text.primary",
         }}
       >
-        <Toolbar>
-          <Container sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Toolbar sx={{ minHeight: { xs: 64, md: 70 } }}>
+          <Container
+            maxWidth="xl"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: { xs: 1, md: 3 },
+            }}
+          >
+            {/* Logo */}
             <Button
               onClick={() => navigate("/")}
               startIcon={<PlaceOutlinedIcon />}
-              sx={{ color: "text.primary", px: 1.5 }}
+              sx={{
+                color: "text.primary",
+                px: 0,
+                minWidth: "auto",
+                "&:hover": { background: "transparent" },
+              }}
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: 900, letterSpacing: -0.5 }}
+                sx={{
+                  fontWeight: 900,
+                  letterSpacing: -0.5,
+                  fontSize: { xs: 18, md: 20 },
+                }}
               >
                 OppdagBygda
               </Typography>
@@ -70,36 +86,75 @@ export default function AppLayout() {
             <Box sx={{ flex: 1 }} />
 
             {!isSm ? (
-              <Stack direction="row" spacing={1} alignItems="center">
-                {navItems.map((item) => (
+              <>
+                {/* Navigation links */}
+                <Stack
+                  direction="row"
+                  spacing={0.5}
+                  alignItems="center"
+                  sx={{ mr: 2 }}
+                >
+                  {navItems.map((item) => (
+                    <Button
+                      key={item.to}
+                      component={NavLink}
+                      to={item.to}
+                      size="small"
+                      sx={{
+                        color: "text.primary",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        px: 1.5,
+                        py: 0.75,
+                        opacity: 0.8,
+                        whiteSpace: "nowrap",
+                        "&.active": {
+                          opacity: 1,
+                          color: "primary.main",
+                          background: "rgba(15,118,110,0.08)",
+                        },
+                        "&:hover": {
+                          opacity: 1,
+                          background: "rgba(15,118,110,0.04)",
+                        },
+                      }}
+                    >
+                      {item.label}
+                    </Button>
+                  ))}
+                </Stack>
+
+                {/* CTA buttons */}
+                <Stack direction="row" spacing={1.5} alignItems="center">
                   <Button
-                    key={item.to}
-                    component={NavLink}
-                    to={item.to}
+                    variant="outlined"
+                    size="medium"
+                    onClick={() => navigate("/arrangor")}
                     sx={{
-                      color: "text.primary",
-                      opacity: 0.9,
-                      "&.active": { opacity: 1, color: "primary.main" },
+                      fontWeight: 700,
+                      fontSize: 14,
+                      px: 2.5,
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    {item.label}
+                    For bedrifter
                   </Button>
-                ))}
-                <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate("/arrangor")}
-                >
-                  For bedrifter
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => navigate("/utforsk")}
-                >
-                  Utforsk no
-                </Button>
-              </Stack>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    onClick={() => navigate("/utforsk")}
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: 14,
+                      px: 3,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Utforsk no
+                  </Button>
+                </Stack>
+              </>
             ) : (
               <>
                 <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
@@ -109,6 +164,9 @@ export default function AppLayout() {
                   anchorEl={anchorEl}
                   open={open}
                   onClose={() => setAnchorEl(null)}
+                  PaperProps={{
+                    sx: { minWidth: 200 },
+                  }}
                 >
                   <MenuItem disabled>
                     <Chip size="small" label="Meny" />
@@ -120,18 +178,30 @@ export default function AppLayout() {
                       component={NavLink}
                       to={item.to}
                       onClick={() => setAnchorEl(null)}
+                      sx={{
+                        "&.active": {
+                          color: "primary.main",
+                          fontWeight: 700,
+                        },
+                      }}
                     >
                       {item.label}
                     </MenuItem>
                   ))}
                   <Divider />
                   <MenuItem
-                    onClick={() => (setAnchorEl(null), navigate("/arrangor"))}
+                    onClick={() => {
+                      setAnchorEl(null);
+                      navigate("/arrangor");
+                    }}
                   >
                     For bedrifter
                   </MenuItem>
                   <MenuItem
-                    onClick={() => (setAnchorEl(null), navigate("/utforsk"))}
+                    onClick={() => {
+                      setAnchorEl(null);
+                      navigate("/utforsk");
+                    }}
                   >
                     <Typography sx={{ fontWeight: 800, color: "primary.main" }}>
                       Utforsk no

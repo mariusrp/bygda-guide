@@ -27,7 +27,7 @@ export default function CategoryGrid() {
   return (
     <Grid container spacing={2}>
       {categories.map((c) => (
-        <Grid key={c.key} item xs={12} sm={6} md={3}>
+        <Grid key={c.key} size={{ xs: 12, sm: 6, md: 3 }}>
           <Paper
             onClick={() => navigate(`/kategori/${c.key}`)}
             role="button"
