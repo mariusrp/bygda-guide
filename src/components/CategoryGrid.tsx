@@ -1,4 +1,5 @@
 import { Grid, Paper, Stack, Typography } from "@mui/material";
+import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import { categories } from "../data/mock";
 import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
@@ -10,7 +11,7 @@ import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import ShoppingBagRoundedIcon from "@mui/icons-material/ShoppingBagRounded";
 import HikingRoundedIcon from "@mui/icons-material/HikingRounded";
 
-const iconMap: Record<string, JSX.Element> = {
+const iconMap: Record<string, ReactElement> = {
   event: <EventAvailableRoundedIcon />,
   hotel: <HotelRoundedIcon />,
   restaurant: <RestaurantRoundedIcon />,

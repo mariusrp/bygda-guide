@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -14,7 +14,7 @@ import {
   Stack,
   Chip,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
@@ -33,11 +33,7 @@ export default function AppLayout() {
   const isSm = useMediaQuery(theme.breakpoints.down("lg")); // Changed to lg
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
-  const location = useLocation();
   const navigate = useNavigate();
-
-  const isHome = useMemo(() => location.pathname === "/", [location.pathname]);
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
